@@ -5,10 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @Entity
+@Getter
+@Setter
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,8 @@ public class Task {
     private boolean completed;
     
     private int pomodoroSessions; // Número de sesiones pomodoro completadas
-}
 
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+}
