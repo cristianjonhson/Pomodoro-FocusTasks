@@ -1,10 +1,8 @@
 package cl.crisjonhson.PomodoroFocusTasks.services;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cl.crisjonhson.PomodoroFocusTasks.model.Task;
 import cl.crisjonhson.PomodoroFocusTasks.repository.TaskRepository;
 
@@ -29,5 +27,10 @@ public class TaskService {
         Task task = taskRepository.findById(id).orElseThrow();
         task.setCompleted(true);
         taskRepository.save(task);
+    }
+
+    // Nuevo método para obtener una tarea por su ID
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
     }
 }
