@@ -3,18 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <!-- Configuración del padre del proyecto, que hereda configuraciones predeterminadas de Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    
     <groupId>cl.crisjonhson.pomodorofocustasks</groupId>
     <artifactId>Pomodoro-FocusTasks</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Pomodoro Focus Tasks</name>
     <description>Aplicación para gestionar tareas con técnica Pomodoro</description>
     <url>http://maven.apache.org</url>
+    
+    <!-- Propiedades del proyecto, como la versión de Java -->
     <properties>
         <java.version>21</java.version>
     </properties>
@@ -24,25 +29,29 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- Starter para construir aplicaciones web, incluyendo RESTful applications -->
         </dependency>
         
-        <!-- Spring Boot Starter Data JPA (si utilizas JPA para acceder a la base de datos) -->
+        <!-- Spring Boot Starter Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <!-- Starter para acceder a bases de datos con JPA -->
         </dependency>
 
-        <!-- H2 Database (para pruebas en memoria, opcional) -->
+        <!-- H2 Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+            <!-- Base de datos en memoria para pruebas y desarrollo -->
         </dependency>
 
-        <!-- Thymeleaf (si necesitas plantillas HTML) -->
+        <!-- Thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <!-- Motor de plantillas para generar HTML a partir de vistas -->
         </dependency>
 
         <!-- Spring Boot Starter Test (para pruebas unitarias) -->
@@ -50,15 +59,79 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <!-- Starter para pruebas unitarias y de integración -->
+        </dependency>
+
+		<!-- Spring Boot Starter Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<!-- Starter para la validación de datos en aplicaciones Spring -->
+		</dependency>
+
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+			<!-- Biblioteca para reducir el código repetitivo mediante anotaciones -->
+		</dependency>
+
+		<!-- Dependencias de MapStruct para el mapeo entre entidades y DTOs -->
+		<dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.2.Final</version>
+            <!-- Biblioteca para mapeo entre objetos de manera sencilla -->
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.2.Final</version>
+            <scope>provided</scope>
+            <!-- Procesador de anotaciones para MapStruct -->
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+	<build>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>21</source> <!-- Versión del código fuente -->
+                    <target>21</target> <!-- Versión del bytecode generado -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.2.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
-        </plugins>
-    </build>
+			
+			<!-- Plugin de Spring Boot para facilitar la construcción y empaquetado -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- Plugin para generar el archivo JAR de la aplicación -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>cl.crisjonhson.PomodoroFocusTasks.PomodoroFocusTasksApplication</mainClass>
+							<!-- Clase principal de la aplicación que contiene el método main -->
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>	
 </project>
