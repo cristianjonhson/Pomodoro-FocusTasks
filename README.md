@@ -1,6 +1,6 @@
 # Pomodoro-FocusTasks
 
-Una aplicación de gestión de tareas (To-Do List) que utiliza la técnica Pomodoro para ayudar a los usuarios a gestionar su tiempo y aumentar su productividad.
+Una aplicación de gestión de tareas que utiliza la técnica Pomodoro para ayudar a los usuarios a gestionar su tiempo y aumentar su productividad.
 
 ## Tabla de Contenidos
 
@@ -8,6 +8,7 @@ Una aplicación de gestión de tareas (To-Do List) que utiliza la técnica Pomod
 - [Tecnologías](#tecnologías)
 - [Instalación](#instalación)
 - [Uso](#uso)
+- [Contenedor](#contenedor)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Contribución](#contribución)
 - [Licencia](#licencia)
@@ -46,7 +47,8 @@ Esta aplicación utiliza las siguientes tecnologías:
 
    ```bash
    git clone https://github.com/cristianjonhson/Pomodoro-FocusTasks.git
-   cd Pomodoro-FocusTasks```
+   cd Pomodoro-FocusTasks
+   ```
    
 2. **Configura la base de datos**:
    - Crea una nueva base de datos en PostgreSQL y actualiza las credenciales en el archivo `src/main/resources/application.properties`.
@@ -70,6 +72,30 @@ Esta aplicación utiliza las siguientes tecnologías:
    ```
 
 La aplicación estará disponible en `http://localhost:8080`.
+
+## Contenedor
+
+Para ejecutar la aplicación en un contenedor Docker, sigue estos pasos:
+
+1. **Crea una red de Docker**:
+
+   ```bash
+   docker network create pomodoro_network 
+   ```
+
+2. **Construye la imagen del contenedor**:
+
+   ```bash
+   docker build -t pomodoro-app-image . 
+   ```
+
+3. **Ejecuta el contenedor**:
+
+   ```bash
+   docker run -d --name pomodoro-app --network pomodoro_network -p 8080:8080 -e SPRING_DATASOURCE_URL="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" -e SPRING_APPLICATION_NAME="Pomodoro-FocusTasks" pomodoro-app-image
+   ```
+
+La aplicación estará disponible en `http://localhost:8080` dentro del contenedor.
 
 ## Uso
 
@@ -119,3 +145,4 @@ todo-pomodoro/
 ## Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT.
+``
