@@ -3,6 +3,8 @@ package cl.crisjonhson.PomodoroFocusTasks.services;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import cl.crisjonhson.PomodoroFocusTasks.model.Task;
 import cl.crisjonhson.PomodoroFocusTasks.repository.TaskRepository;
 
@@ -15,7 +17,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    @Transactional
     public Task saveTask(Task task) {
+        System.out.println("Guardando tarea: " + task); // Debug
+        task.setCompleted(false); // Asegúrate de que la tarea se inicie como no completada
         return taskRepository.save(task);
     }
 
