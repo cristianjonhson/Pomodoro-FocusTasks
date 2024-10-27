@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador de tareas</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-2">
+        <h1 class="text-center mb-4">Focus Tasks</h1>
+        <form id="taskForm" th:action="@{/tasks}" th:object="${task}" method="post" class="mb-3">
+            <div class="mb-3">
+                <label for="title" class="form-label">Título de la tarea</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}"
+                    placeholder="Ingrese el título de la tarea" required />
+                <div th:if="${#fields.hasErrors('title')}" class="text-danger">
+                    <span th:errors="*{title}"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción de la tarea</label>
+                <textarea class="form-control" id="description" th:field="*{description}"
+                    placeholder="Ingrese la descripción de la tarea"></textarea>
+            </div>
+            <!--  <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="completed" th:field="*{completed}" />
+                <label class="form-check-label" for="completed">Completada</label>
+            </div>
+            <div class="mb-3">
+                <label for="pomodoroSessions" class="form-label">Sesiones Pomodoro</label>
+                <input type="number" class="form-control" id="pomodoroSessions" th:field="*{pomodoroSessions}" placeholder="0" value="0" />
+            </div>-->
+            <div class="d-flex mt-3">
+                <button type="submit" class="btn btn-primary me-2">Agregar</button>
+            </div>
+        </form>
+        <h2>Temporizador Pomodoro</h2>
+        <div class="d-flex mt-4">
+            <div id="timer" class="display-4">25:00</div>
+            <button onclick="startPomodoro()" class="btn btn-warning btn-lg mt-2">Iniciar Pomodoro</button>
+        </div>
+    </div>
+    <div class="d-flex mt-3">
+        <ul class="list-group mb-4">
+            <li th:each="task : ${tasks}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span th:text="${task.title}"></span>
+                <div>
+                    <button th:if="${!task.completed}" th:onclick="'completeTask(' + ${task.id} + ')'"
+                        class="btn btn-success btn-sm">Completar</button>
+                    <button th:onclick="'deleteTask(' + ${task.id} + ')'"
+                        class="btn btn-danger btn-sm">Eliminar</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Agrega el archivo JavaScript justo antes de cerrar el body -->
+    <script>
+        let timeLeft = 1500; // 25 minutos en segundos
+        let timer;
+
+        function startPomodoro() {
+            timer = setInterval(function () {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert('¡Tiempo de descanso!');
+                } else {
+                    timeLeft--;
+                    document.getElementById('timer').textContent = formatTime(timeLeft);
+                }
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
+        }
+    </script>
+</body>
+
+</html>
